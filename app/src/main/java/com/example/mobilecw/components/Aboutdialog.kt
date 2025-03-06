@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 fun AboutDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("About Game") },
-        text = { Text("This is a simple Jetpack Compose game.") },
+        title = { Text("About") },
+        text = { Text("Id: w2051579\nName: Nadil Dinsara") },
         confirmButton = {
             Button(onClick = onDismiss) {
                 Text("OK")

@@ -38,7 +38,7 @@ fun StartScreen(navController: NavHostController,viewModel: MyViewModel = viewMo
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = {
                 showAbout = !showAbout
-                viewModel.toggleAboutDialog()
+                //viewModel.toggleAboutDialog()
             }) {
                 Text(text = "About")
             }
@@ -47,7 +47,7 @@ fun StartScreen(navController: NavHostController,viewModel: MyViewModel = viewMo
     if (showAbout){
         AboutDialog(onDismiss = {
             showAbout = false
-            viewModel.toggleAboutDialog()
+            //viewModel.toggleAboutDialog()
         })
     }
 }

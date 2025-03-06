@@ -9,7 +9,7 @@ class MyViewModel: ViewModel() {
     var showAbout by mutableStateOf(false)
         private set
 
-    fun toggleAboutDialog(){
-        showAbout = !showAbout
-    }
+//    fun toggleAboutDialog(){
+//        showAbout = !showAbout
+//    }
 }
