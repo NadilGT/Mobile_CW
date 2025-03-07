@@ -48,6 +48,6 @@ fun StartScreen(navController: NavHostController,viewModel: MyViewModel = viewMo
         AboutDialog(onDismiss = {
             showAbout = false
             //viewModel.toggleAboutDialog()
-        })
+        },"About","Id: w2051579\nName: Nadil Dinsara")
     }
 }
