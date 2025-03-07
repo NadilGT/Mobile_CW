@@ -21,6 +21,10 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
     val computerScore by viewModel.computerScore.collectAsState()
     val rollCount by viewModel.rollCount.collectAsState()
 
+    val selectedHumanDice by viewModel.selectedHumanDice.collectAsState()
+
+    val allHumanDiceSelected = selectedHumanDice.size == humanDice.size
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -35,11 +39,13 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
 
         Spacer(modifier = Modifier.height(32.dp))
         Row {
-            Button(
-                onClick = { viewModel.rollDices() },
-                enabled = rollCount < 1
-            ) {
-                Text(text = "Throw")
+            if (!allHumanDiceSelected){
+                Button(
+                    onClick = { viewModel.rollDices() },
+                    enabled = rollCount < 1
+                ) {
+                    Text(text = "Throw")
+                }
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(

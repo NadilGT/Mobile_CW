@@ -23,7 +23,7 @@ fun DiceRow(diceValues: List<Int>, isHuman: Boolean, viewModel: GameViewModel = 
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         diceValues.forEachIndexed { index, value ->
             val isSelected = if (isHuman) selectedHumanDice.contains(index) else selectedComputerDice.contains(index)
@@ -35,7 +35,7 @@ fun DiceRow(diceValues: List<Int>, isHuman: Boolean, viewModel: GameViewModel = 
                         if (isSelected) Color.Gray else Color.Transparent,
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .padding(4.dp)
+                    .padding(3.dp)
                     .clickable{
                         if (isHuman) viewModel.toggleHumanDiceSelection(index)
                         else viewModel.toggleComputerDiceSelection(index)
