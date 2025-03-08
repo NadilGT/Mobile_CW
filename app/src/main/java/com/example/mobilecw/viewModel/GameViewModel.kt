@@ -35,6 +35,12 @@ class GameViewModel : ViewModel() {
     private val _gameOver = MutableStateFlow(false)
     val gameOver: StateFlow<Boolean> = _gameOver
 
+    private val _humanWin = MutableStateFlow(false)
+    val humanWin: StateFlow<Boolean> = _humanWin
+
+    private val _computerWin = MutableStateFlow(false)
+    val computerWin: StateFlow<Boolean> = _computerWin
+
     fun rollDices() {
         if (_rollCount.value < 3) {
             _humanDice.value = _humanDice.value.mapIndexed { index, value ->
@@ -85,6 +91,11 @@ class GameViewModel : ViewModel() {
     private fun checkWinner() {
         if (_humanScore.value >= 101) {
             _gameOver.value = true
+            _humanWin.value = true
+        }
+        else if (_computerScore.value >= 101){
+            _gameOver.value = true
+            _computerWin.value = true
         }
     }
 
