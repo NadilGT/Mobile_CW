@@ -6,11 +6,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun AboutDialog(onDismiss: () -> Unit) {
+fun AboutDialog(onDismiss: () -> Unit, text1:String, text2:String) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("About") },
-        text = { Text("Id: w2051579\nName: Nadil Dinsara") },
+        title = { Text(text1) },
+        text = { Text(text2) },
         confirmButton = {
             Button(onClick = onDismiss) {
                 Text("OK")

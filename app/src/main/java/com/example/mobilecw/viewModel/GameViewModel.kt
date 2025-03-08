@@ -1,18 +1,20 @@
 package com.example.mobilecw.viewModel
 
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
+import com.example.mobilecw.components.AboutDialog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.random.Random
 
-class GameViewModel: ViewModel() {
-    private val _humanDice = MutableStateFlow(List(5) { Random.nextInt(1,7) })
+class GameViewModel : ViewModel() {
+    private val _humanDice = MutableStateFlow(List(5) { Random.nextInt(1, 7) })
     val humanDice: StateFlow<List<Int>> = _humanDice
 
     private val _humanScore = MutableStateFlow(0)
     val humanScore: StateFlow<Int> = _humanScore
 
-    private val _computerDice = MutableStateFlow(List(5) { Random.nextInt(1,7)})
+    private val _computerDice = MutableStateFlow(List(5) { Random.nextInt(1, 7) })
     val computerDice: StateFlow<List<Int>> = _computerDice
 
     private val _computerScore = MutableStateFlow(0)
@@ -21,15 +23,77 @@ class GameViewModel: ViewModel() {
     private val _rollCount = MutableStateFlow(0)
     val rollCount: StateFlow<Int> = _rollCount
 
-    fun rollDices(){
-        _humanDice.value = List(5) {Random.nextInt(1,7)}
-        _computerDice.value = List(5) {Random.nextInt(1,7)}
-        _rollCount.value += 1
+    private val _selectedHumanDice = MutableStateFlow(mutableSetOf<Int>())  // Only human dice
+    val selectedHumanDice: StateFlow<Set<Int>> = _selectedHumanDice
+
+    private val _selectedComputerDice = MutableStateFlow(mutableSetOf<Int>())
+    val selectedComputerDice: StateFlow<Set<Int>> = _selectedComputerDice
+
+    private val _scoreSubmitted = MutableStateFlow(false)
+    val scoreSubmitted: StateFlow<Boolean> = _scoreSubmitted
+
+    private val _gameOver = MutableStateFlow(false)
+    val gameOver: StateFlow<Boolean> = _gameOver
+
+    fun rollDices() {
+        if (_rollCount.value < 3) {
+            _humanDice.value = _humanDice.value.mapIndexed { index, value ->
+                if (_selectedHumanDice.value.contains(index)) value
+                else Random.nextInt(1, 7)
+            }
+            _computerDice.value = _computerDice.value.mapIndexed { index, value ->
+                if (_selectedComputerDice.value.contains(index)) value
+                else Random.nextInt(1,7)
+            }
+            _rollCount.value += 1
+            _scoreSubmitted.value = false
+
+            if (_rollCount.value == 3) {
+                updateScore()
+            }
+        }
     }
 
-    fun updateScore(){
+    fun updateScore() {
         _humanScore.value += _humanDice.value.sum()
         _computerScore.value += _computerDice.value.sum()
         _rollCount.value = 0
+
+        _selectedHumanDice.value = mutableSetOf()
+        _selectedComputerDice.value = mutableSetOf()
+
+        checkWinner()
+    }
+
+    fun toggleHumanDiceSelection(index: Int) {
+        _selectedHumanDice.value = _selectedHumanDice.value.toMutableSet().apply {
+            if (contains(index)) remove(index) else add(index)
+        }
+    }
+    fun toggleComputerDiceSelection(index: Int) {
+        _selectedComputerDice.value = _selectedComputerDice.value.toMutableSet().apply {
+            if (contains(index)) remove(index) else add(index)
+        }
+    }
+
+    fun submitScore() {
+        if (!_scoreSubmitted.value) {
+            _scoreSubmitted.value = true  // Disable Score button after first click
+        }
+    }
+
+    private fun checkWinner() {
+        if (_humanScore.value >= 101) {
+            _gameOver.value = true
+        }
+    }
+
+    fun resetGame() {
+        _humanScore.value = 0
+        _computerScore.value = 0
+        _rollCount.value = 0
+        _selectedHumanDice.value = mutableSetOf()
+        _selectedComputerDice.value = mutableSetOf()
+        _gameOver.value = false
     }
 }
