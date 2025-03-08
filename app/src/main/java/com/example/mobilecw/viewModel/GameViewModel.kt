@@ -78,7 +78,6 @@ class GameViewModel : ViewModel() {
 
     fun submitScore() {
         if (!_scoreSubmitted.value) {
-            updateScore()
             _scoreSubmitted.value = true  // Disable Score button after first click
         }
     }

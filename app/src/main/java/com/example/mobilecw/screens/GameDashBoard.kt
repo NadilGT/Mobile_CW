@@ -64,7 +64,13 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
                     onClick = { viewModel.rollDices() },
                     enabled = rollCount < 3
                 ) {
-                    Text(text = "Throw: $rollCount")
+                    if (rollCount < 1){
+                        Text(text = "Throw: $rollCount")
+                    }
+                    else{
+                        Text(text = "Re-roll: $rollCount")
+                    }
+                    
                 }
             }
             Spacer(modifier = Modifier.width(16.dp))
