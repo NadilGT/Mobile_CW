@@ -44,6 +44,8 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
 
     val allHumanDiceSelected = selectedHumanDice.size == humanDice.size
 
+    var index:Int
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -116,7 +118,7 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
                 Button(
                     onClick = {
                         viewModel.rollDices()
-                        viewModel.toggleComputerDiceSelection(Random.nextInt(1..6))
+                        viewModel.toggleComputerDiceSelection(index = Random.nextInt(1..5)-1)
                               },
                     enabled = rollCount < 3,
                     modifier = Modifier
