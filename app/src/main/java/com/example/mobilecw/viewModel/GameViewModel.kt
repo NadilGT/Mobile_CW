@@ -80,6 +80,7 @@ class GameViewModel : ViewModel() {
         _selectedComputerDice.value = _selectedComputerDice.value.toMutableSet().apply {
             if (contains(index)) remove(index) else add(index)
         }
+        println(_selectedComputerDice.value)
     }
 
     fun submitScore() {
