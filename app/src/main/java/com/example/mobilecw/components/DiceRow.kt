@@ -38,7 +38,8 @@ fun DiceRow(diceValues: List<Int>, isHuman: Boolean, viewModel: GameViewModel = 
                     .padding(3.dp)
                     .clickable{
                         if (isHuman) viewModel.toggleHumanDiceSelection(index)
-                        else viewModel.toggleComputerDiceSelection(index)
+//                        else viewModel.toggleComputerDiceSelection(index)
+                        //viewModel.toggleHumanDiceSelection(index)
                     }
             ) {
                 Image(
