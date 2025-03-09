@@ -24,6 +24,8 @@ import com.example.mobilecw.components.DiceRow
 import com.example.mobilecw.ui.theme.Blue
 import com.example.mobilecw.ui.theme.Green
 import com.example.mobilecw.viewModel.GameViewModel
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 @Composable
 fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
@@ -112,7 +114,10 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
         ){
             if (!allHumanDiceSelected){
                 Button(
-                    onClick = { viewModel.rollDices() },
+                    onClick = {
+                        viewModel.rollDices()
+                        viewModel.toggleComputerDiceSelection(Random.nextInt(1..6))
+                              },
                     enabled = rollCount < 3,
                     modifier = Modifier
                         .fillMaxWidth()
