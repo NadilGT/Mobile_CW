@@ -41,6 +41,9 @@ class GameViewModel : ViewModel() {
     private val _computerWin = MutableStateFlow(false)
     val computerWin: StateFlow<Boolean> = _computerWin
 
+    private val _gameTie = MutableStateFlow(false)
+    val gameTie: StateFlow<Boolean> = _gameTie
+
     fun rollDices() {
         if (_rollCount.value < 3) {
             _humanDice.value = _humanDice.value.mapIndexed { index, value ->
@@ -90,7 +93,23 @@ class GameViewModel : ViewModel() {
     }
 
     private fun checkWinner() {
-        if (_humanScore.value >= 101) {
+        if (_humanScore.value >= 101 && _computerScore.value >= 101) {
+            if (_humanScore.value == _computerScore.value){
+                _gameTie.value = true
+                _rollCount.value = 0
+                _selectedHumanDice.value = mutableSetOf()
+                _selectedComputerDice.value = mutableSetOf()
+            } else if(_humanScore.value > _computerScore.value){
+                _gameOver.value = true
+                _humanWin.value = true
+            } else {
+                _gameOver.value = true
+                _computerWin.value = true
+            }
+//            _gameOver.value = true
+//            _humanWin.value = true
+        }
+        else if (_humanScore.value >= 101){
             _gameOver.value = true
             _humanWin.value = true
         }
@@ -107,5 +126,12 @@ class GameViewModel : ViewModel() {
         _selectedHumanDice.value = mutableSetOf()
         _selectedComputerDice.value = mutableSetOf()
         _gameOver.value = false
+    }
+
+    fun resetRoundAfterTie() {
+        _gameTie.value = false
+        _rollCount.value = 0
+        _selectedHumanDice.value = mutableSetOf()
+        _selectedComputerDice.value = mutableSetOf()
     }
 }

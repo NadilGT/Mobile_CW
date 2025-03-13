@@ -39,6 +39,7 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
     val gameOver by viewModel.gameOver.collectAsState()
     val humanWin by viewModel.humanWin.collectAsState()
     val computerWin by viewModel.computerWin.collectAsState()
+    val gameTie by viewModel.gameTie.collectAsState()
 
     val selectedHumanDice by viewModel.selectedHumanDice.collectAsState()
 
@@ -48,12 +49,39 @@ fun GameDashBoard(viewModel: GameViewModel = viewModel()) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         Text(text = "Human Player: $humanScore")
         if(rollCount >= 1){
             DiceRow(diceValues = humanDice, isHuman = true, viewModel = viewModel)  // Pass isHuman = true
+        }
+        if (gameTie){
+            AlertDialog(
+                onDismissRequest = {},
+                text = {
+                    Text(
+                        "It's a Tie! The game will continue.",
+                        color = Color.Blue,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                },
+                confirmButton = {
+                    Button(onClick = { viewModel.resetRoundAfterTie() }) {
+                        Text("Continue")
+                    }
+                },
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.White)
+                    .width(200.dp)
+                    .padding(10.dp),
+                shape = RoundedCornerShape(16.dp),
+                containerColor = Color.White
+            )
         }
         if (gameOver && humanWin) {
             AlertDialog(
